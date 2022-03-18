@@ -1,6 +1,3 @@
-/**
- * ⚡⚡⚡ DECLARAMOS LAS LIBRERIAS y CONSTANTES A USAR! ⚡⚡⚡
- */
 require('dotenv').config()
 const fs = require('fs');
 const express = require('express');
@@ -66,7 +63,6 @@ const listenMessage = () => client.on('message', async msg => {
     /**
      * Si estas usando dialogflow solo manejamos una funcion todo es IA
      */
-
     if (process.env.DATABASE === 'dialogflow') {
         const response = await bothResponse(message);
         await sendMessage(client, from, response.replyMessage);
@@ -160,12 +156,7 @@ const withSession = () => {
  */
 const withOutSession = () => {
     console.log('No tenemos session guardada');
-    console.log([
-        '🙌 El core de whatsapp se esta actualizando',
-        '🙌 para proximamente dar paso al multi-device',
-        '🙌 falta poco si quieres estar al pendiente unete',
-        '🙌 http://t.me/leifermendez',
-        '________________________',
+    console.log(['________________________',
     ].join('\n'));
 
     client = new Client(createClient());

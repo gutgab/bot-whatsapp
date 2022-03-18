@@ -49,7 +49,7 @@ const sendMessage = async (client, number = null, text = null, trigger = null) =
     const message = text
     client.sendMessage(number, message);
     await readChat(number, message, trigger)
-    console.log(`⚡⚡⚡ Enviando mensajes....`);
+    console.log(`Enviando mensajes...`);
    },DELAY_TIME)
 }
 
@@ -63,7 +63,7 @@ const sendMessageButton = async (client, number = null, text = null, actionButto
     let button = new Buttons(message,[...buttons], title, footer);
     client.sendMessage(number, button);
 
-    console.log(`⚡⚡⚡ Enviando mensajes....`);
+    console.log(`Enviando mensajes..`);
 }
 
 
