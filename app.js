@@ -1,3 +1,6 @@
+//per
+const fetch = require('node-fetch')
+//per
 require('dotenv').config()
 const fs = require('fs');
 const express = require('express');
@@ -52,25 +55,54 @@ const listenMessage = () => client.on('message', async msg => {
     const number = cleanNumber(from)
     await readChat(number, message)
 
+    //PERS
+    const url='http://207.246.79.29/users'
+    //PERS
+
+
+    const envioDeMensajeAlAPI=()=>{
+        var data = JSON.stringify({ "cedula": "10361534", "token": "gipSOvKO_rD-0UQzWIiZFw" })
+        fetch('http://10.0.32.151:5000/users',{method:'POST',headers:{"Content-type":"application/json"},body:JSON.stringify({'numero':from,'msg':message})})
+        .then(response => response.json())
+        .then( async data => {
+            if(data['botones']==true){
+                await sendMessageButton(client,from,data['repplyMessage'],data['actions'])
+            }
+            else if(data['media']!=''){
+                    sendMedia(client, from, data.media);
+            }
+            else await sendMessage(client, from, data['repplyMessage'], null)
+        })
+    }
+    envioDeMensajeAlAPI();
+/*     if (step) {
+        const response = await responseMessages(step);
+        await sendMessage(client, from, response.replyMessage, response.trigger);
+        if(response.hasOwnProperty('actions')){
+            const { actions } = response;
+            await sendMessageButton(client, from, null, actions);
+            return
+        }
+    } */
     /**
      * Guardamos el archivo multimedia que envia
      */
-    if (process.env.SAVE_MEDIA && hasMedia) {
+/*     if (process.env.SAVE_MEDIA && hasMedia) {
         const media = await msg.downloadMedia();
         saveMedia(media);
-    }
+    } */
 
     /**
      * Si estas usando dialogflow solo manejamos una funcion todo es IA
      */
-    if (process.env.DATABASE === 'dialogflow') {
+/*     if (process.env.DATABASE === 'dialogflow') {
         const response = await bothResponse(message);
         await sendMessage(client, from, response.replyMessage);
         if (response.media) {
             sendMedia(client, from, response.media);
         }
         return
-    }
+    } */
 
     /**
     * Ver si viene de un paso anterior
@@ -78,24 +110,18 @@ const listenMessage = () => client.on('message', async msg => {
     * a tu gusto!
     */
 
-    const lastStep = await lastTrigger(from) || null;
+/*     const lastStep = await lastTrigger(from) || null;
     if (lastStep) {
         const response = await responseMessages(lastStep)
         await sendMessage(client, from, response.replyMessage);
     }
-
+ */
     /**
      * Respondemos al primero paso si encuentra palabras clave
      */
-    const step = await getMessages(message);
-
+/*     const step = await getMessages(message);
     if (step) {
         const response = await responseMessages(step);
-
-        /**
-         * Si quieres enviar botones
-         */
-
         await sendMessage(client, from, response.replyMessage, response.trigger);
         if(response.hasOwnProperty('actions')){
             const { actions } = response;
@@ -112,22 +138,16 @@ const listenMessage = () => client.on('message', async msg => {
             }, response.delay)
         }
         return
-    }
-
+    } */
     //Si quieres tener un mensaje por defecto
-    if (process.env.DEFAULT_MESSAGE === 'true') {
+/*     if (process.env.DEFAULT_MESSAGE === 'true') {
         const response = await responseMessages('DEFAULT')
         await sendMessage(client, from, response.replyMessage, response.trigger);
-
-        /**
-         * Si quieres enviar botones
-         */
         if(response.hasOwnProperty('actions')){
             const { actions } = response;
             await sendMessageButton(client, from, null, actions);
         }
-        return
-    }
+        return} */
 });
 
 /**
